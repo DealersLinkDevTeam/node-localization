@@ -100,11 +100,11 @@ describe('localize', () => {
   it('loadDictionary (new)', () => {
     local.loadDictionary('ja', {
       'NewKey': 'ありがと',
-      '__MissingDefaultLang': '選択されたデフォルトの言語は利用できません。'
+      '__MissingDefaultLang': '選択されたデフォルトの言語は存在しません。'
     });
     let tr = local.tr('NewKey', 'ja');
     expect(tr).to.be.equal('ありがと');
     tr = local.tr('__MissingDefaultLang', 'ja');
-    expect(tr).to.be.equal('選択されたデフォルトの言語は利用できません。');
+    expect(tr).to.be.equal('選択されたデフォルトの言語は存在しません。');
   });
 });
