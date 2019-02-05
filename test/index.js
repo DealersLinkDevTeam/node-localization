@@ -5,7 +5,11 @@ describe('localize', () => {
   const Localize = require('..');
   const local = new Localize({
     en: {
-      ParamTest: '$1 is a $2'
+      ParamTest: '$1 is a $2',
+      TopLevel: {
+        Key1: 'Key1',
+        Key2: 'Key2'
+      }
     },
     ru: {
       __MissingDefaultLang: 'Выбранный язык по умолчанию недоступен'
@@ -31,12 +35,19 @@ describe('localize', () => {
 
   it('tr[anslate] (missing key)', () => {
     const tr = local.tr('__MissingKey');
-    expect(tr).to.be.equal('');
+    expect(tr).to.be.equal(null);
   });
 
   it('tr[anslate] (with parameters)', () => {
     const tr = local.tr('ParamTest', null, 'Apple', 'Banana');
     expect(tr).to.be.equal('Apple is a Banana');
+  });
+
+  it('tr[anslate] (top level object)', () => {
+    const tr = local.tr('TopLevel');
+    expect(tr).to.be.an('object');
+    expect(tr).to.have.property('Key1');
+    expect(tr).to.have.property('Key2');
   });
 
   it('listLanguages', () => {
@@ -89,11 +100,11 @@ describe('localize', () => {
   it('loadDictionary (new)', () => {
     local.loadDictionary('ja', {
       'NewKey': 'ありがと',
-      '__MissingDefaultLang': '選択されたデフォルトの言語は利用できません'
+      '__MissingDefaultLang': '選択されたデフォルトの言語は利用できません。'
     });
     let tr = local.tr('NewKey', 'ja');
     expect(tr).to.be.equal('ありがと');
     tr = local.tr('__MissingDefaultLang', 'ja');
-    expect(tr).to.be.equal('選択されたデフォルトの言語は利用できません');
+    expect(tr).to.be.equal('選択されたデフォルトの言語は利用できません。');
   });
 });
